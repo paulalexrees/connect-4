@@ -22,8 +22,8 @@ class Game
     @player_1_turn ? 1 : 2
   end
 
-  def check_four
-    check_rows
+  def check_for_winner
+    check_rows || check_columns
   end
 
 private
@@ -31,7 +31,16 @@ private
   def check_rows
     @board.each do |row|
       row.each_cons(4) do |slice|
-        return true if slice.uniq == ["R"]
+        return true if slice.uniq != ["_"]
+      end
+    end
+    false
+  end
+
+  def check_columns
+    @board.transpose.each do |row|
+      row.each_cons(4) do |slice|
+        return true if slice.uniq != ["_"]
       end
     end
     false

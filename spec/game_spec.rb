@@ -1,3 +1,5 @@
+require 'helpers'
+
 describe Game do
 
   let(:game) { described_class.new }
@@ -43,18 +45,14 @@ describe Game do
 
   context 'determining 4 in a row' do
 
-    before (:each) do
-      game.take_turn(1)
-      game.take_turn(1)
-      game.take_turn(2)
-      game.take_turn(2)
-      game.take_turn(3)
-      game.take_turn(3)
-      game.take_turn(4)
+    it 'can find 4 in one row' do
+      player_1_win_row
+      expect(game.check_for_winner).to eq true
     end
 
-    it 'can find 4 in one row' do
-      expect(game.check_four).to eq true
+    it 'can find 4 in one column' do
+      player_1_win_column
+      expect(game.check_for_winner).to eq true
     end
 
   end
