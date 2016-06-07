@@ -4,13 +4,12 @@ class Game
 
   def initialize
     @player_1_turn = true
-    @board = [['_','_','_','_','_','_'],
-              ['_','_','_','_','_','_'],
-              ['_','_','_','_','_','_'],
-              ['_','_','_','_','_','_'],
-              ['_','_','_','_','_','_'],
-              ['_','_','_','_','_','_'],
-              ['_','_','_','_','_','_']]
+    @board = [['_','_','_','_','_','_','_'],
+              ['_','_','_','_','_','_','_'],
+              ['_','_','_','_','_','_','_'],
+              ['_','_','_','_','_','_','_'],
+              ['_','_','_','_','_','_','_'],
+              ['_','_','_','_','_','_','_']]
 
   end
 
@@ -23,10 +22,27 @@ class Game
     @player_1_turn ? 1 : 2
   end
 
+  def check_four
+    check_rows
+  end
+
 private
 
+  def check_rows
+    @board.each do |row|
+      row.each_cons(4) do |slice|
+        return true if slice.uniq == ["R"]
+      end
+    end
+    false
+  end
+
   def index_of_first_blank(column)
-    @board[column].find_index("_")
+    get_column_as_array(column).reverse.find_index("_")
+  end
+
+  def get_column_as_array(column)
+    @board.map { |row| row[column] }
   end
 
   def switch_turns
@@ -34,11 +50,8 @@ private
   end
 
   def drop_token(column, colour)
-    @board[column][index_of_first_blank(column)] = colour
+    @board[@board.length - index_of_first_blank(column) - 1][column] = colour
   end
-
-
-
 
 
 end
