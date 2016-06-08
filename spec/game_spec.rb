@@ -55,8 +55,13 @@ describe Game do
       expect(game.check_for_winner).to eq true
     end
 
-    it 'can find 4 diagonally' do
-      player_1_win_diagonal
+    it 'can find 4 diagonally left to right' do
+      player_1_win_diagonal_left
+      expect(game.check_for_winner).to eq true
+    end
+
+    it 'can find 4 diagonally right to left' do
+      player_1_win_diagonal_right
       expect(game.check_for_winner).to eq true
     end
 

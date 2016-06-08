@@ -1,7 +1,5 @@
 class Game
 
-  attr_reader :board
-
   def initialize
     @player_1_turn = true
     @board = [['_','_','_','_','_','_','_'],
@@ -26,10 +24,14 @@ class Game
     check_rows || check_columns || check_diagonals
   end
 
+  def board
+    @board.dup
+  end
+
 private
 
   def check_rows
-    @board.each do |row|
+    board.each do |row|
       row.each_cons(4) do |slice|
         return true if slice.uniq == ["R"]
       end
@@ -37,8 +39,8 @@ private
     false
   end
 
-  def check_columns(board = @board)
-    board.transpose.each do |row|
+  def check_columns(temp_board = board)
+    temp_board.transpose.each do |row|
       row.each_cons(4) do |slice|
         return true if slice.uniq == ["R"]
       end
@@ -47,13 +49,27 @@ private
   end
 
   def check_diagonals
-    offset = @board.length - 1
-    board = @board
+    check_columns(offset_left_diagonals) || check_columns(offset_right_diagonals)
+  end
+
+  def offset_left_diagonals
+    temp_board = board
+    offset = temp_board.length - 1
     for i in 0..offset do
-      (offset-i).times { board[i].insert(0,("X")) }
-      (i).times { board[i] << "X" }
+      (offset-i).times { temp_board[i].insert(0,("X")) }
+      (i).times { temp_board[i] << "X" }
     end
-    check_columns(board)
+    temp_board
+  end
+
+  def offset_right_diagonals
+    temp_board = board
+    offset = temp_board.length - 1
+    for i in 0..offset do
+      (offset-i).times { temp_board[i] << "X" }
+      (i).times { temp_board[i].insert(0,("X")) }
+    end
+    temp_board
   end
 
   def index_of_first_blank(column)
@@ -61,7 +77,7 @@ private
   end
 
   def get_column_as_array(column)
-    @board.map { |row| row[column] }
+    board.map { |row| row[column] }
   end
 
   def switch_turns

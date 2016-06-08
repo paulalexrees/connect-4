@@ -18,7 +18,7 @@ def player_1_win_column
   game.take_turn(1)
 end
 
-def player_1_win_diagonal
+def player_1_win_diagonal_left
   game.take_turn(4)
   game.take_turn(3)
   game.take_turn(3)
@@ -30,4 +30,18 @@ def player_1_win_diagonal
   game.take_turn(1)
   game.take_turn(0)
   game.take_turn(1)
+end
+
+def player_1_win_diagonal_right
+  game.take_turn(1)
+  game.take_turn(2)
+  game.take_turn(2)
+  game.take_turn(3)
+  game.take_turn(3)
+  game.take_turn(4)
+  game.take_turn(3)
+  game.take_turn(4)
+  game.take_turn(4)
+  game.take_turn(5)
+  game.take_turn(4)
 end
