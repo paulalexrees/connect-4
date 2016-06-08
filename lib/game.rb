@@ -23,7 +23,7 @@ class Game
   end
 
   def check_for_winner
-    check_rows || check_columns
+    check_rows || check_columns || check_diagonals
   end
 
 private
@@ -31,19 +31,29 @@ private
   def check_rows
     @board.each do |row|
       row.each_cons(4) do |slice|
-        return true if slice.uniq != ["_"]
+        return true if slice.uniq == ["R"]
       end
     end
     false
   end
 
-  def check_columns
-    @board.transpose.each do |row|
+  def check_columns(board = @board)
+    board.transpose.each do |row|
       row.each_cons(4) do |slice|
-        return true if slice.uniq != ["_"]
+        return true if slice.uniq == ["R"]
       end
     end
     false
+  end
+
+  def check_diagonals
+    offset = @board.length - 1
+    board = @board
+    for i in 0..offset do
+      (offset-i).times { board[i].insert(0,("X")) }
+      (i).times { board[i] << "X" }
+    end
+    check_columns(board)
   end
 
   def index_of_first_blank(column)
